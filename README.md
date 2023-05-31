@@ -63,5 +63,6 @@ python Uscrapper.py [-h] [-u URL] [-O] [-ns]
 <b>Want a new feature to be added?</b><br>
 * Make a pull request with all the necessary details and it will be merged after a review.
 * You can contribute by making the regular expressions more efficient and accurate, or by suggesting some more features that can be added.
-<br><h2>🛡️ License:</h2><br>
+
+<h2>🛡️ License:</h2><br>
 This project is licensed under the <a href="https://github.com/z0m31en7/Uscrapper/blob/main/LICENSE">MIT-LICENSE</a><br><br>
