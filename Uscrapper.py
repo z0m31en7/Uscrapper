@@ -45,7 +45,7 @@ def extract_details(url, generate_report, non_strict):
 
     if social_links:
         print(colored("\n[+] Social Media Links:", "cyan"))
-        social_media_platforms = ['instagram', 'facebook', 'whatsapp', 'snapchat', 'github', 'reddit', 'youtube', 'linkedin']
+        social_media_platforms = ['instagram', 'facebook', 'whatsapp', 'snapchat', 'github', 'reddit', 'youtube', 'linkedin', 'twitter', 'telegram']
         for link in social_links:
             for platform in social_media_platforms:
                 if platform in link:
