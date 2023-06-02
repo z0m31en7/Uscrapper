@@ -29,7 +29,8 @@ Uscrapper extracts the following details from the provided website:
 git clone https://github.com/z0m31en7/Uscrapper.git
 ```
 ```
-cd Uscrapper/install/ && ./install.sh        #For Unix/Linux systems
+cd Uscrapper/install/ 
+chmod +x ./install.sh && ./install.sh      #For Unix/Linux systems
 ```
 
 <br><p> For Windows systems run:</p>
