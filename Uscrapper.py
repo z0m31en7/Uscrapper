@@ -33,7 +33,7 @@ def extract_details(url, generate_report, non_strict):
     extracted_emails = set(re.findall(email_regex, webpage_text))
     phone_regex3 = r'\(\d{3}\)\s\d{3}\s\d{5}'
     phone_regex = r'\b\+?\d{10,12}\b'
-    phone_regex2 = r'\b(?:\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}\)?[- ]?\d{4}\b'
+    phone_regex2 = r'(?:\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}\)?[- ]?\d{4}\b'
     extracted_phone_numbers = set(re.findall(phone_regex, webpage_text))
     extracted_phone_numbers2 = set(re.findall(phone_regex2, webpage_text))
     extracted_phone_numbers3 = set(re.findall(phone_regex3, webpage_text))
