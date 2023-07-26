@@ -19,6 +19,7 @@ def extract_details(url, generate_report, non_strict):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
+    usernames = []
     if non_strict:
         usernames = set(username.string for username in soup.find_all('a', href=True, string=re.compile(r'^[^\s]+$')))
 
