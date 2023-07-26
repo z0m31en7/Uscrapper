@@ -4,6 +4,7 @@ import argparse
 import re
 from termcolor import colored
 from urllib.parse import urlparse
+import json
 
 print("\n")
 print("   █░█ █▀ █▀▀ █▀█ ▄▀█ █▀█ █▀█ █▀▀ █▀█")
@@ -12,13 +13,14 @@ print("   █▄█ ▄█ █▄▄ █▀▄ █▀█ █▀▀ �
 print(colored("\n   A Webpage scrapper for OSINT.","yellow"))
 print(colored("          ~By: Pranjal Goel (z0m31en7)\n", "red"))
 
-def extract_details(url, generate_report, non_strict):
+def extract_details(url, generate_report, format, non_strict):
     if not url.startswith('http://') and not url.startswith('https://'):
         url = 'https://' + url
     
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
+    usernames = []
     if non_strict:
         usernames = set(username.string for username in soup.find_all('a', href=True, string=re.compile(r'^[^\s]+$')))
 
@@ -65,35 +67,45 @@ def extract_details(url, generate_report, non_strict):
 
     if generate_report:
         with open('report.txt', 'w') as report_file:
-            if usernames:
-                report_file.write("[+] Usernames:\n")
-                for username in usernames:
-                    report_file.write(username + '\n')
+            if format == 'json':
+                json.dump({
+                            'usernames': list(usernames),
+                            'email_addresses': list(email_addresses),
+                            'extracted_phone_numbers': list(extracted_phone_numbers),
+                            'social_links': list(social_links),
+                            'author_names': list(author_names),
+                            'geolocations': list(geolocations),
+                          }, report_file)
+            else:
+                if usernames:
+                    report_file.write("[+] Usernames:\n")
+                    for username in usernames:
+                        report_file.write(username + '\n')
 
-            if email_addresses:
-                report_file.write("\n[+] Email Addresses:\n")
-                for email in email_addresses:
-                    report_file.write(email + '\n')
+                if email_addresses:
+                    report_file.write("\n[+] Email Addresses:\n")
+                    for email in email_addresses:
+                        report_file.write(email + '\n')
 
-            if extracted_phone_numbers:
-                report_file.write("\n[+] Phone Numbers:\n")
-                for phone in extracted_phone_numbers:
-                    report_file.write(phone + '\n')
+                if extracted_phone_numbers:
+                    report_file.write("\n[+] Phone Numbers:\n")
+                    for phone in extracted_phone_numbers:
+                        report_file.write(phone + '\n')
 
-            if social_links:
-                report_file.write("\n[+] Social Media Links:\n")
-                for link in social_links:
-                    report_file.write(link + '\n')
+                if social_links:
+                    report_file.write("\n[+] Social Media Links:\n")
+                    for link in social_links:
+                        report_file.write(link + '\n')
 
-            if author_names:
-                report_file.write("\n[+] Author Names:\n")
-                for author in author_names:
-                    report_file.write(author + '\n')
+                if author_names:
+                    report_file.write("\n[+] Author Names:\n")
+                    for author in author_names:
+                        report_file.write(author + '\n')
 
-            if geolocations:
-                report_file.write("\n[+] Geolocations:\n")
-                for location in geolocations:
-                    report_file.write(location + '\n')
+                if geolocations:
+                    report_file.write("\n[+] Geolocations:\n")
+                    for location in geolocations:
+                        report_file.write(location + '\n')
 
     if extracted_emails or extracted_phone_numbers or extracted_usernames:
         print(colored("\n----------Non-Hyperlinked Details----------", "yellow"))
@@ -132,9 +144,10 @@ if __name__ == '__main__':
     parser.add_argument('-u', '--url', help='URL of the website')
     parser.add_argument('-O', '--generate-report', action='store_true', help='Generate a report')
     parser.add_argument('-ns', '--nonstrict', action='store_true', help='Display non-strict usernames (may show inaccurate results)')
+    parser.add_argument('-f', '--format', help='[default:plaintext] {plaintext|json} Format to use for the report, only used with -O|--generate-report')
     args = parser.parse_args()
 
     if args.url:
-        extract_details(args.url, args.generate_report, args.nonstrict)
+        extract_details(args.url, args.generate_report, args.format, args.nonstrict)
     else:
         print("Please provide the URL using the -u/--url option.")
