@@ -6,7 +6,7 @@
 
 <p align="center"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&amp;logo=windows&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&amp;logo=linux&amp;logoColor=black" alt="shields"><img src="https://img.shields.io/badge/tmux-1BB91F?style=for-the-badge&amp;logo=tmux&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/windows%20terminal-4D4D4D?style=for-the-badge&amp;logo=windows%20terminal&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/iTerm2-000000?style=for-the-badge&amp;logo=iterm2&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="shields"></p><br><br>
 
-<p align="center"><img src="https://github.com/z0m31en7/Uscrapper/blob/main/images/logo.png?raw=true" alt="project-logo"></p><br>
+<p align="center"><img src="https://github.com/z0m31en7/Uscrapper/blob/main/images/logo.png" alt="project-logo"></p><br>
   
 <h2>💡 Extracted Details:</h2><br>
 
@@ -20,7 +20,7 @@ Uscrapper extracts the following details from the provided website:
 
 <br><h2>📽 Preview:</h2><br>
 
-<p align="center"><img src="https://github.com/z0m31en7/Uscrapper/blob/main/images/uscrapper.png?raw=true" alt="project-ss"></p><br>
+<p align="center"><img src="https://github.com/z0m31en7/Uscrapper/blob/main/images/uscrapper.png" alt="project-ss"></p><br>
 
 
 <h2>🛠️ Installation Steps:</h2><br>
