@@ -19,6 +19,7 @@ def extract_details(url, generate_report, non_strict):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
+    usernames = []
     if non_strict:
         usernames = set(username.string for username in soup.find_all('a', href=True, string=re.compile(r'^[^\s]+$')))
 
@@ -34,9 +35,9 @@ def extract_details(url, generate_report, non_strict):
     phone_regex3 = r'\(\d{3}\)\s\d{3}\s\d{5}'
     phone_regex = r'\b\+?\d{10,12}\b'
     phone_regex2 = r'(?:\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}\)?[- ]?\d{4}\b'
-    extracted_phone_numbers = set(re.findall(phone_regex, webpage_text))
-    extracted_phone_numbers2 = set(re.findall(phone_regex2, webpage_text))
-    extracted_phone_numbers3 = set(re.findall(phone_regex3, webpage_text))
+    phone_regex_combined = '|'.join('(?:{0})'.format(x) for x in (phone_regex, phone_regex2, phone_regex3)) # https://stackoverflow.com/questions/8888567/match-a-line-with-multiple-regex-using-python#comment11113784_8888615
+    extracted_phone_numbers = set(re.findall(phone_regex_combined, webpage_text))
+    
     username_regex = r'@[A-Za-z0-9_]+'
     extracted_usernames = set(re.findall(username_regex, webpage_text))
 
@@ -108,18 +109,6 @@ def extract_details(url, generate_report, non_strict):
     if extracted_phone_numbers:
         print(colored("\n[+] Phone Numbers:", "cyan"))
         for phone in extracted_phone_numbers:
-            print(phone)
-
-    if extracted_phone_numbers2 != extracted_phone_numbers:
-        if not extracted_phone_numbers:
-            print(colored("\n[+] Phone Numbers:", "cyan"))
-        for phone in extracted_phone_numbers2:
-            print(phone)
-
-    if extracted_phone_numbers3 != extracted_phone_numbers or extracted_phone_numbers2:
-        if not extracted_phone_numbers and extracted_phone_numbers2:
-            print(colored("\n[+] Phone Numbers:", "cyan"))
-        for phone in extracted_phone_numbers3:
             print(phone)
 
     if extracted_usernames and non_strict:
