@@ -34,9 +34,10 @@ def extract_details(url, generate_report, non_strict):
     extracted_emails = set(re.findall(email_regex, webpage_text))
     phone_regex3 = r'\(\d{3}\)\s\d{3}\s\d{5}'
     phone_regex = r'\b\+?\d{10,12}\b'
-    phone_regex2 = r'\b(?:\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}\)?[- ]?\d{4}\b'
+    phone_regex2 = r'(?:\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}\)?[- ]?\d{4}\b'
     phone_regex_combined = '|'.join('(?:{0})'.format(x) for x in (phone_regex, phone_regex2, phone_regex3)) # https://stackoverflow.com/questions/8888567/match-a-line-with-multiple-regex-using-python#comment11113784_8888615
     extracted_phone_numbers = set(re.findall(phone_regex_combined, webpage_text))
+    
     username_regex = r'@[A-Za-z0-9_]+'
     extracted_usernames = set(re.findall(username_regex, webpage_text))
 
