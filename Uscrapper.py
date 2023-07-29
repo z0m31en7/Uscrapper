@@ -122,6 +122,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.url:
+        url = args.url
          if not url.startswith('http://') and not url.startswith('https://'):
              url = 'https://' + url
          try:
