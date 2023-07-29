@@ -14,7 +14,15 @@ print(colored("          ~By: Pranjal Goel (z0m31en7)\n", "red"))
 
 def extract_details(url, generate_report, non_strict):
     
-    response = requests.get(url)
+    user_agents_list = [
+    'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
+    'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.3'
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5.2 Mobile/15E148 Safari/604.'
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
+]
+    response = requests.get(url, headers={'User-Agent': random.choice(user_agents_list)})
     soup = BeautifulSoup(response.text, 'html.parser')
 
     usernames = []
@@ -33,7 +41,7 @@ def extract_details(url, generate_report, non_strict):
     phone_regex3 = r'\(\d{3}\)\s\d{3}\s\d{5}'
     phone_regex = r'\b\+?\d{10,12}\b'
     phone_regex2 = r'(?:\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}\)?[- ]?\d{4}\b'
-    phone_regex_combined = '|'.join('(?:{0})'.format(x) for x in (phone_regex, phone_regex2, phone_regex3)) # https://stackoverflow.com/questions/8888567/match-a-line-with-multiple-regex-using-python#comment11113784_8888615
+    phone_regex_combined = '|'.join('(?:{0})'.format(x) for x in (phone_regex, phone_regex2, phone_regex3))
     extracted_phone_numbers = set(re.findall(phone_regex_combined, webpage_text))
     
     username_regex = r'@[A-Za-z0-9_]+'
@@ -46,7 +54,7 @@ def extract_details(url, generate_report, non_strict):
 
     if social_links:
         print(colored("\n[+] Social Media Links:", "cyan"))
-        social_media_platforms = ['instagram', 'facebook', 'whatsapp', 'snapchat', 'github', 'reddit', 'youtube', 'linkedin', 'twitter', 'telegram']
+        social_media_platforms = ['instagram', 'facebook', 'whatsapp', 'snapchat', 'github', 'reddit', 'youtube', 'linkedin', 'twitter', 'telegram', 'imo', 'discord']
         for link in social_links:
             for platform in social_media_platforms:
                 if platform in link:
