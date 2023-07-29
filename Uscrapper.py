@@ -13,8 +13,6 @@ print(colored("\n   A Webpage scrapper for OSINT.","yellow"))
 print(colored("          ~By: Pranjal Goel (z0m31en7)\n", "red"))
 
 def extract_details(url, generate_report, non_strict):
-    if not url.startswith('http://') and not url.startswith('https://'):
-        url = 'https://' + url
     
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -124,6 +122,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.url:
-        extract_details(args.url, args.generate_report, args.nonstrict)
+         if not url.startswith('http://') and not url.startswith('https://'):
+             url = 'https://' + url
+         try:
+             response = requests.get(url)
+             if response.status_code == 200: 
+                 extract_details(args.url, args.generate_report, args.nonstrict)
+             else:
+                 print(f"URL is down: Status code {response.status_code}")
+         except requests.exceptions.RequestException as e:
+             print("Error occurred while checking the link:", e)
     else:
         print("Please provide the URL using the -u/--url option.")
