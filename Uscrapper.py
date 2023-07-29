@@ -123,12 +123,13 @@ if __name__ == '__main__':
 
     if args.url:
         url = args.url
+        print(colored("TARGET:","magenta"), colored(url,"green"))
         if not url.startswith('http://') and not url.startswith('https://'):
              url = 'https://' + url
         try:
              response = requests.get(url)
              if response.status_code == 200: 
-                 extract_details(args.url, args.generate_report, args.nonstrict)
+                 extract_details(url, args.generate_report, args.nonstrict)
              else:
                  print(f"URL is down: Status code {response.status_code}")
         except requests.exceptions.RequestException as e:
