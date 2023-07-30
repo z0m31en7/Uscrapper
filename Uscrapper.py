@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import random
 import argparse
 import re
 from termcolor import colored
