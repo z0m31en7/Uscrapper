@@ -23,7 +23,7 @@ Uscrapper extracts the following details from the provided website:
 <p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AITFw-y-7PS48iC0sU2HPSjlBanpM4RPKJn3GGmmnFYmqZ5PqLyLvO4aefDzqITpO52fPwY5FH8y4stik_yYVW_RzsnlipDUxg=s2560" alt="project-ss"></p><br>
 <p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AITFw-x6V0zw3mgqnBcvKlWRLYvNQvjusTk-nvLeXCp3GmECsYLeibxnSCFJtqYt50OG1YVwPU22T1Q6FXRGdTBRe2mh4ne8Kw=s1600" alt="project-ss2"></p>
 
-<br><h2>🤩 Whats New?:</h2>
+<h2>🤩 Whats New?:</h2>
 
 Uscrapper 2.0:
 
