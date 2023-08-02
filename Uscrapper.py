@@ -1,30 +1,143 @@
+
 import requests
 from bs4 import BeautifulSoup
 import random
 import argparse
 import re
 from termcolor import colored
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
+from concurrent.futures import ThreadPoolExecutor
+from collections import OrderedDict
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.service import Service as FirefoxService
+import signal
 
 print("\n")
-print("   █░█ █▀ █▀▀ █▀█ ▄▀█ █▀█ █▀█ █▀▀ █▀█")
-print("   █▄█ ▄█ █▄▄ █▀▄ █▀█ █▀▀ █▀▀ ██▄ █▀▄  (v1)")
+print(colored("   █░█","blue"),colored("█▀ █▀▀ █▀█ ▄▀█ █▀█ █▀█ █▀▀ █▀█  ","white",attrs=['bold']))
+print(colored("   █▄█","blue"),colored("▄█ █▄▄ █▀▄ █▀█ █▀▀ █▀▀ ██▄ █▀▄ ","white", attrs=['bold']),colored("(v2.0)","blue",))
 
-print(colored("\n   A Webpage scrapper for OSINT.","yellow"))
+print(colored("\n   A Powerfull OSINT WebScrapper","yellow"))
 print(colored("          ~By: Pranjal Goel (z0m31en7)\n", "red"))
 
+extracted_usernames0 = []
+extracted_phone_numbers0 = []
+extracted_emails0 = []
+geolocations0 = []
+author_names0 = []
+social_links0 = []
+email_addresses0 = []
+counter = 0
+driver = 0
+
+def handler(signum, frame):
+    res = input(colored("\n[x] Ctrl-c was pressed. Do you really want to exit? y/n: ","red"))
+    if res == 'y':
+        print(colored("[exiting..]","red"))
+        exit(1)
+
+def selenium_wd(url):
+
+    global counter
+    global driver
+    options = Options()
+    options.add_argument('-headless')
+    if counter == 0:
+        driver = webdriver.Firefox(options=options)
+        counter = 1
+    driver.get(url)
+    source = driver.page_source
+    return source
+
+def get_links_from_page(url):
+
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, "html.parser")
+        domain = urlparse(url).netloc
+
+
+        links = set()
+        for anchor in soup.find_all("a", href=True):
+            link = anchor["href"]
+            absolute_link = urljoin(url, link)
+            parsed_link = urlparse(absolute_link)
+
+
+            if parsed_link.netloc == domain and parsed_link.scheme in {"http", "https"}:
+                links.add(absolute_link)
+
+        return links
+
+    if response.status_code == 403:
+        soup = BeautifulSoup(selenium_wd(url),"html.parser")
+        domain = urlparse(url).netloc
+
+
+        links = set()
+        for anchor in soup.find_all("a", href=True):
+            link = anchor["href"]
+            absolute_link = urljoin(url, link)
+            parsed_link = urlparse(absolute_link)
+
+
+            if parsed_link.netloc == domain and parsed_link.scheme in {"http", "https"}:
+                links.add(absolute_link)
+
+        return links
+
+    else:
+        print(f"Error: Unable to fetch {url}. Status code: {response.status_code}")
+        return set()
+
+def web_crawler(start_url, max_pages=10, num_threads=4):
+
+    if num_threads == None:
+       num_threads = 4
+    visited_links = set()
+    queue = [start_url]
+
+    def crawl_page(url):
+        if url in visited_links:
+            return set()
+
+        print(f"Crawling: {url}")
+        extract_details(url, args.generate_report, args.nonstrict)
+        links_on_page = get_links_from_page(url)
+        visited_links.add(url)
+        return links_on_page
+
+    with ThreadPoolExecutor(max_workers=num_threads) as executor:
+        while queue and len(visited_links) < max_pages:
+            current_url = queue.pop(0)
+
+            future = executor.submit(crawl_page, current_url)
+            links_on_page = future.result()
+
+            for link in links_on_page:
+                if link not in visited_links:
+                    queue.append(link)
+
+    print("Crawling finished.")
+
+
 def extract_details(url, generate_report, non_strict):
-    
+
     user_agents_list = [
     'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
     'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.3'
     'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5.2 Mobile/15E148 Safari/604.'
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
-]
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36' ]
+
     response = requests.get(url, headers={'User-Agent': random.choice(user_agents_list)})
     soup = BeautifulSoup(response.text, 'html.parser')
+
+    if response.status_code == 403:
+       soup = BeautifulSoup(selenium_wd(url), 'html.parser')
 
     usernames = []
     if non_strict:
@@ -44,91 +157,113 @@ def extract_details(url, generate_report, non_strict):
     phone_regex2 = r'(?:\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}\)?[- ]?\d{4}\b'
     phone_regex_combined = '|'.join('(?:{0})'.format(x) for x in (phone_regex, phone_regex2, phone_regex3))
     extracted_phone_numbers = set(re.findall(phone_regex_combined, webpage_text))
-    
     username_regex = r'@[A-Za-z0-9_]+'
     extracted_usernames = set(re.findall(username_regex, webpage_text))
 
     if email_addresses:
-        print(colored("\n[+] Email Addresses:", "cyan"))
         for email in email_addresses:
-            print(email)
+            email_addresses0.append(email)
 
     if social_links:
-        print(colored("\n[+] Social Media Links:", "cyan"))
-        social_media_platforms = ['instagram', 'facebook', 'whatsapp', 'snapchat', 'github', 'reddit', 'youtube', 'linkedin', 'twitter', 'telegram', 'imo', 'discord']
+        social_media_platforms = ['instagram', 'facebook', 'whatsapp', 'snapchat', 'github', 'reddit', 'youtube', 'linkedin', 'twitter', 'telegram', 'discord','pinterest']
         for link in social_links:
             for platform in social_media_platforms:
                 if platform in link:
-                    print(link)
+                    social_links0.append(link)
 
     if author_names:
-        print(colored("\n[+] Author Names:", "cyan"))
         for author in author_names:
-            print(author)
+            author_names0.append(author)
 
     if geolocations:
-        print(colored("\n[+] Geolocations:", "cyan"))
         for location in geolocations:
-            print(location)
-
-    if generate_report:
-        with open('report.txt', 'w') as report_file:
-            if usernames:
-                report_file.write("[+] Usernames:\n")
-                for username in usernames:
-                    report_file.write(username + '\n')
-
-            if email_addresses:
-                report_file.write("\n[+] Email Addresses:\n")
-                for email in email_addresses:
-                    report_file.write(email + '\n')
-
-            if extracted_phone_numbers:
-                report_file.write("\n[+] Phone Numbers:\n")
-                for phone in extracted_phone_numbers:
-                    report_file.write(phone + '\n')
-
-            if social_links:
-                report_file.write("\n[+] Social Media Links:\n")
-                for link in social_links:
-                    report_file.write(link + '\n')
-
-            if author_names:
-                report_file.write("\n[+] Author Names:\n")
-                for author in author_names:
-                    report_file.write(author + '\n')
-
-            if geolocations:
-                report_file.write("\n[+] Geolocations:\n")
-                for location in geolocations:
-                    report_file.write(location + '\n')
-
-    if extracted_emails or extracted_phone_numbers or extracted_usernames:
-        print(colored("\n----------Non-Hyperlinked Details----------", "yellow"))
+            geolocations0.append(location)
 
     if extracted_emails:
-        print(colored("\n[+] Email Addresses:", "cyan"))
-        for email in extracted_emails:
+       for email in extracted_emails:
             if email.lower().startswith("email"):
                 email = email[5:]
-            print(email)
+            extracted_emails0.append(email)
 
     if extracted_phone_numbers:
-        print(colored("\n[+] Phone Numbers:", "cyan"))
         for phone in extracted_phone_numbers:
-            print(phone)
+            extracted_phone_numbers0.append(phone)
 
     if extracted_usernames and non_strict:
-        print(colored("\n[+] Usernames:", "cyan"))
         for username in extracted_usernames:
+            extracted_usernames0.append(username)
+
+def printlist():
+
+    email_addresses1 = []
+    social_links1 = []
+    extracted_emails1 = []
+    author_names1 = []
+    geolocations1 = []
+    extracted_phone_numbers1 = []
+    extracted_usernames1 = []
+
+    if email_addresses0:
+        print(colored("\n[+] Email Addresses:", "cyan"))
+        email_addresses1 = list(OrderedDict.fromkeys(email_addresses0))
+        for email in email_addresses1:
+            print(email)
+
+    if social_links0:
+        print(colored("\n[+] Social Media Links:", "cyan"))
+        social_links1 = list(OrderedDict.fromkeys(social_links0))
+        for links in social_links1:
+            print(links)
+
+    if author_names0:
+        print(colored("\n[+] Author Names:", "cyan"))
+        author_names1 = list(OrderedDict.fromkeys(author_names0))
+        for author in author_names1:
+            print(author)
+
+    if geolocations0:
+        print(colored("\n[+] Geolocations:", "cyan"))
+        geolocations1 = list(OrderedDict.fromkeys(geolocation0))
+        for location in geolocations1:
+            print(location)
+
+    if extracted_emails0 or extracted_phone_numbers0 or extracted_usernames0:
+        print(colored("\n----------Non-Hyperlinked Details----------", "yellow"))
+
+    if extracted_emails0:
+        print(colored("\n[+] Email Addresses:", "cyan"))
+        extracted_emails1 = list(OrderedDict.fromkeys(extracted_emails0))
+        for email in extracted_emails1:
+            print(email)
+
+    if extracted_phone_numbers0:
+        print(colored("\n[+] Phone Numbers:", "cyan"))
+        extracted_phone_numbers1 = list(OrderedDict.fromkeys(extracted_phone_numbers0))
+        for phone in extracted_phone_numbers1:
+            print(phone)
+
+    if extracted_usernames0 and non_strict:
+        print(colored("\n[+] Usernames:", "cyan"))
+        extracted_usernames1 = list(OrderedDict.fromkeys(extracted_usernames0))
+        for username in extracted_usernames1:
             print(username)
+ 
+    concl = "Email Addresses:"+str(len(email_addresses1)+len(extracted_emails1)),"Social Links:"+str(len(social_links1)),"Phone Numbers:"+str(len(extracted_phone_numbers1)), "Geolocations:"+str(len(geolocations1))
     print("\n")
+    print(colored(concl, "green", attrs=['blink']))
+    print("\n")
+    exit(1)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='OSINT Tool for Webpage scraping')
     parser.add_argument('-u', '--url', help='URL of the website')
     parser.add_argument('-O', '--generate-report', action='store_true', help='Generate a report')
     parser.add_argument('-ns', '--nonstrict', action='store_true', help='Display non-strict usernames (may show inaccurate results)')
+    parser.add_argument('-c', '--crawl', type=int, help= 'specify max number of links to  Crawl and scrape within the same scope')
+    parser.add_argument('-t', '--threads', type=int, help= 'Number of threads to utilize while crawling (default=4)')
     args = parser.parse_args()
+    signal.signal(signal.SIGINT, handler)
+    counter = 0
 
     if args.url:
         url = args.url
@@ -137,8 +272,21 @@ if __name__ == '__main__':
              url = 'https://' + url
         try:
              response = requests.get(url)
-             if response.status_code == 200: 
+             if response.status_code == 200:
+                 if args.crawl:
+                     web_crawler(url, args.crawl, args.threads)
+                     printlist()
                  extract_details(url, args.generate_report, args.nonstrict)
+                 printlist()
+
+             if response.status_code == 403:
+                print(colored("\n[!] Status code 403 (Forbidden), Website might be using anti webscrapping methods.", "red"))
+                print(colored("[+] Trying to bypass...","green"))
+                if args.crawl:
+                    web_crawler(url, args.crawl, args.threads)
+                extract_details(url, args.generate_report, args.nonstrict)
+                printlist()
+                driver.quit()
              else:
                  print(f"URL is down: Status code {response.status_code}")
         except requests.exceptions.RequestException as e:

@@ -8,6 +8,8 @@ pip install termcolor
 pip install selenium
 pip install webdriver-manager
 
+sudo apt-get update && apt-get install -y firefox
+
 # Make the script executable
 chmod +x ../Uscrapper.py
 
