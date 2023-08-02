@@ -62,7 +62,7 @@ python Uscrapper.py [-h] [-u URL] [-c (INT)] [-t THREADS] [-O] [-ns]
 
 * The accuracy and completeness of the extracted details depend on the structure and content of the website being analyzed.
 
-* Some websites may have anti-scraping measures in place, which could affect the extraction process or lead to inaccurate results.
+* To bypass some Anti-Webscrapping methods we have used selenium which can make the overall process slower.
 
 <br><h2>💌 Contribution:</h2><br>
 <b>Want a new feature to be added?</b><br>
