@@ -2,9 +2,9 @@
 
 <p align="center"><img src="https://socialify.git.ci/z0m31en7/Uscrapper/image?font=Source%20Code%20Pro&amp;name=1&amp;owner=1&amp;pattern=Plus&amp;theme=Dark" alt="project-image"></p><br>
 
-<p id="description">Introducing Uscrapper 2.0,  A powerfull OSINT webscrapper that allows users to extract various personal information from a website. It leverages web scraping techniques and regular expressions to extract email addresses, social media links, author names, geolocations, phone numbers, and usernames from both hyperlinked and non-hyperlinked sources on the webpage, supports multithreading to make this process faster, Uscrapper 2.0 is equipped with advanced Anti-webscrapping bypassing modules and supports webcrawling to scrape from various sublinks within the same domain. The tool also provides an option to generate a report containing the extracted details. </p><br><br>
+<p id="description" align="justify">Introducing Uscrapper 2.0,  A powerfull OSINT webscrapper that allows users to extract various personal information from a website. It leverages web scraping techniques and regular expressions to extract email addresses, social media links, author names, geolocations, phone numbers, and usernames from both hyperlinked and non-hyperlinked sources on the webpage, supports multithreading to make this process faster, Uscrapper 2.0 is equipped with advanced Anti-webscrapping bypassing modules and supports webcrawling to scrape from various sublinks within the same domain. The tool also provides an option to generate a report containing the extracted details. </p><br><br>
 
-<p align="center"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&amp;logo=windows&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&amp;logo=linux&amp;logoColor=black" alt="shields"><img src="https://img.shields.io/badge/tmux-1BB91F?style=for-the-badge&amp;logo=tmux&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/windows%20terminal-4D4D4D?style=for-the-badge&amp;logo=windows%20terminal&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/iTerm2-000000?style=for-the-badge&amp;logo=iterm2&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="shields"></p><br><br>
+<p align="center"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&amp;logo=linux&amp;logoColor=black" alt="shields"><img src="https://img.shields.io/badge/tmux-1BB91F?style=for-the-badge&amp;logo=tmux&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/windows%20terminal-4D4D4D?style=for-the-badge&amp;logo=windows%20terminal&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/iTerm2-000000?style=for-the-badge&amp;logo=iterm2&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="shields"></p><br><br>
 
 <p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AITFw-yL2zYKX1yEZPYLPK5brCOz_jSMLH1ilEPi7jeSAv0XUIbkf4ardW0pflUV7ltxpqppYrmdOt5NWf24PjpgqxkE1zBl=s1600" alt="project-logo"></p><br>
   
@@ -21,7 +21,7 @@ Uscrapper extracts the following details from the provided website:
 <br><h2>📽 Preview:</h2><br>
 
 <p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AITFw-y-7PS48iC0sU2HPSjlBanpM4RPKJn3GGmmnFYmqZ5PqLyLvO4aefDzqITpO52fPwY5FH8y4stik_yYVW_RzsnlipDUxg=s2560" alt="project-ss"></p><br>
-<p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AITFw-x6V0zw3mgqnBcvKlWRLYvNQvjusTk-nvLeXCp3GmECsYLeibxnSCFJtqYt50OG1YVwPU22T1Q6FXRGdTBRe2mh4ne8Kw=s1600" alt="project-ss2"></p><br>
+<p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AITFw-x6V0zw3mgqnBcvKlWRLYvNQvjusTk-nvLeXCp3GmECsYLeibxnSCFJtqYt50OG1YVwPU22T1Q6FXRGdTBRe2mh4ne8Kw=s1600" alt="project-ss2"></p>
 
 <br><h2>🤩 Whats New?:</h2><br>
 
@@ -62,7 +62,7 @@ python Uscrapper.py [-h] [-u URL] [-c (INT)] [-t THREADS] [-O] [-ns]
 
 * The accuracy and completeness of the extracted details depend on the structure and content of the website being analyzed.
 
-* Some websites may have anti-scraping measures in place, which could affect the extraction process or lead to inaccurate results.
+* To bypass some Anti-Webscrapping methods we have used selenium which can make the overall process slower.
 
 <br><h2>💌 Contribution:</h2><br>
 <b>Want a new feature to be added?</b><br>
