@@ -71,7 +71,7 @@ def get_links_from_page(url):
 
         return links
 
-    if response.status_code == 403:
+    if response.status_code != 200 and response.status_code != 404:
         soup = BeautifulSoup(selenium_wd(url),"html.parser")
         domain = urlparse(url).netloc
 
@@ -136,7 +136,7 @@ def extract_details(url, generate_report, non_strict):
     response = requests.get(url, headers={'User-Agent': random.choice(user_agents_list)})
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    if response.status_code == 403:
+    if response.status_code != 200 and response.status_code != 404:
        soup = BeautifulSoup(selenium_wd(url), 'html.parser')
 
     usernames = []
@@ -279,8 +279,8 @@ if __name__ == '__main__':
                  extract_details(url, args.generate_report, args.nonstrict)
                  printlist()
 
-             if response.status_code == 403:
-                print(colored("\n[!] Status code 403 (Forbidden), Website might be using anti webscrapping methods.", "red"))
+             if response.status_code != 200 and response.status_code != 404:
+                print(colored("\n[!] Status code:","red"),colored(response.status_code,"red"),colored("Website might be using anti webscrapping methods.", "red"))
                 print(colored("[+] Trying to bypass...","green"))
                 if args.crawl:
                     web_crawler(url, args.crawl, args.threads)
