@@ -1,4 +1,3 @@
-
 import requests
 from bs4 import BeautifulSoup
 import random
@@ -13,6 +12,7 @@ from selenium.webdriver.firefox.options import Options
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 import signal
+from datetime import datetime
 
 print("\n")
 print(colored("   █░█","blue"),colored("█▀ █▀▀ █▀█ ▄▀█ █▀█ █▀█ █▀▀ █▀█  ","white",attrs=['bold']))
@@ -30,6 +30,15 @@ social_links0 = []
 email_addresses0 = []
 counter = 0
 driver = 0
+email_addresses1 = []
+social_links1 = []
+extracted_emails1 = []
+author_names1 = []
+geolocations1 = []
+extracted_phone_numbers1 = []
+extracted_usernames1 = []
+report_content = ""
+link_list = ""
 
 def handler(signum, frame):
     res = input(colored("\n[x] Ctrl-c was pressed. Do you really want to exit? y/n: ","red"))
@@ -100,10 +109,13 @@ def web_crawler(start_url, max_pages=10, num_threads=4):
     queue = [start_url]
 
     def crawl_page(url):
+        global link_list
         if url in visited_links:
             return set()
 
         print(f"Crawling: {url}")
+        link_list += url
+        link_list += "\n"
         extract_details(url, args.generate_report, args.nonstrict)
         links_on_page = get_links_from_page(url)
         visited_links.add(url)
@@ -195,13 +207,13 @@ def extract_details(url, generate_report, non_strict):
 
 def printlist():
 
-    email_addresses1 = []
-    social_links1 = []
-    extracted_emails1 = []
-    author_names1 = []
-    geolocations1 = []
-    extracted_phone_numbers1 = []
-    extracted_usernames1 = []
+    global email_addresses1
+    global social_links1
+    global extracted_emails1
+    global author_names1
+    global geolocations1
+    global extracted_phone_numbers1
+    global extracted_usernames1
 
     if email_addresses0:
         print(colored("\n[+] Email Addresses:", "cyan"))
@@ -252,8 +264,82 @@ def printlist():
     print("\n")
     print(colored(concl, "green", attrs=['blink']))
     print("\n")
+    if args.generate_report:
+       generate_report()
+    if counter != 0:
+       driver.quit()
     exit(1)
 
+def generate_report():
+
+    global report_content
+    report_content = "\nTARGET: "+url+"\n\n"
+
+    if args.crawl:
+       report_content += "[!] URLs Scrapped:\n"
+       report_content += link_list
+
+    report_content += "\n{Email Addresses:"+str(len(email_addresses1)+len(extracted_emails1))+", Social Links:"+str(len(social_links1))+", Phone Numbers:"+str(len(extracted_phone_numbers1))+", Geolocations:"+str(len(geolocations1))+"}\n"
+
+    if email_addresses1:
+        report_content += "\n[+] Email Addresses:\n"
+        for email in email_addresses1:
+            report_content += email
+            report_content += '\n'
+
+    if social_links1:
+        report_content += "\n[+] Social Media Links:\n"
+        for links in social_links1:
+            report_content += links
+            report_content += '\n'
+
+    if author_names1:
+        report_content += "\n[+] Author Names:\n"
+        for author in author_names1:
+            report_content += author
+            report_content += '\n'
+
+    if geolocations1:
+        report_content += "\n[+] Geolocations:\n"
+        for location in geolocations1:
+            report_content += location
+            report_content += '\n'
+
+    if extracted_emails1 or extracted_phone_numbers1 or extracted_usernames1:
+        report_content += "\n----------Non-Hyperlinked Details----------\n"
+
+    if extracted_emails1:
+        report_content += "\n[+] Email Addresses:\n"
+        for email in extracted_emails1:
+            report_content += email
+            report_content += '\n'
+
+    if extracted_phone_numbers1:
+        report_content += "\n[+] Phone Numbers:\n"
+        for phone in extracted_phone_numbers1:
+            report_content += phone
+            report_content += '\n'
+
+    if extracted_usernames1 and non_strict:
+        report_content += "\n[+] Usernames:\n"
+        for username in extracted_usernames1:
+            report_content += phone
+            report_content += '\n'
+
+    current_date_time = datetime.now()
+    formatted_date_time = current_date_time.strftime("%Y-%m-%d_%H:%M:%S")
+    file_name = f"{formatted_date_time}.txt"
+    
+    try:
+
+        with open(file_name, 'w') as file:
+            # Write the report content to the file
+            file.write(report_content)
+        print(f"Report saved to {file_name} successfully.")
+    except Exception as e:
+        print(f"Error while saving the report: {e}")
+    
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='OSINT Tool for Webpage scraping')
     parser.add_argument('-u', '--url', help='URL of the website')
@@ -278,6 +364,7 @@ if __name__ == '__main__':
                      printlist()
                  extract_details(url, args.generate_report, args.nonstrict)
                  printlist()
+                 generate_report()
 
              if response.status_code != 200 and response.status_code != 404:
                 print(colored("\n[!] Status code:","red"),colored(response.status_code,"red"),colored("Website might be using anti webscrapping methods.", "red"))
@@ -286,7 +373,7 @@ if __name__ == '__main__':
                     web_crawler(url, args.crawl, args.threads)
                 extract_details(url, args.generate_report, args.nonstrict)
                 printlist()
-                driver.quit()
+
              else:
                  print(f"URL is down: Status code {response.status_code}")
         except requests.exceptions.RequestException as e:
