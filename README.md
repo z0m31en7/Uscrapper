@@ -46,7 +46,7 @@ chmod +x ./install.sh && ./install.sh      #For Unix/Linux systems
 <p>To run Uscrapper, use the following command-line syntax:</p>
 
 ```
-python Uscrapper.py [-h] [-u URL] [-c (INT)] [-t THREADS] [-O] [-ns]
+python Uscrapper-v2.0.py [-h] [-u URL] [-c (INT)] [-t THREADS] [-O] [-ns]
 ```
 <br><b>Arguments:</b>
 
