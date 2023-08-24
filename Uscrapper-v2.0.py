@@ -235,7 +235,7 @@ def printlist():
 
     if geolocations0:
         print(colored("\n[+] Geolocations:", "cyan"))
-        geolocations1 = list(OrderedDict.fromkeys(geolocation0))
+        geolocations1 = list(OrderedDict.fromkeys(geolocations0))
         for location in geolocations1:
             print(location)
 
