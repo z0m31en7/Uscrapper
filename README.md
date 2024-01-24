@@ -38,7 +38,10 @@ git clone https://github.com/z0m31en7/Uscrapper.git
 ```
 ```
 cd Uscrapper/install/ 
+python -m venv venv
+source venv/bin/activate
 chmod +x ./install.sh && ./install.sh      #For Unix/Linux systems
+cd ..
 ```
 
 <br><h2>🔮 Usage:</h2>
