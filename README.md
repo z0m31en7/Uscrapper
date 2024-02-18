@@ -2,9 +2,9 @@
 
 <p align="center"><img src="https://socialify.git.ci/z0m31en7/Uscrapper/image?font=Source%20Code%20Pro&amp;name=1&amp;owner=1&amp;pattern=Plus&amp;theme=Dark" alt="project-image"></p><br>
 
-<p id="description" align="justify">Introducing Uscrapper 2.0,  A powerfull OSINT webscrapper that allows users to extract various personal information from a website. It leverages web scraping techniques and regular expressions to extract email addresses, social media links, author names, geolocations, phone numbers, and usernames from both hyperlinked and non-hyperlinked sources on the webpage, supports multithreading to make this process faster, Uscrapper 2.0 is equipped with advanced Anti-webscrapping bypassing modules and supports webcrawling to scrape from various sublinks within the same domain. The tool also provides an option to generate a report containing the extracted details. </p><br><br>
+<p id="description" align="justify">Introducing Uscrapper Vanta, Unleashing the Power of Open-Source Intelligence, dive deeper into the vast web with Uscrapper Vanta, Vanta unlocks a new level of data extraction capabilities, empowering the exploration of the uncharted territories of the dark web and uncovering hidden gems with pinpoint accuracy using the keyword extraction model. Uscrapper Vanta retains the core strengths of its predecessor, It can be used to Harvest a wealth of personal information, including email addresses, social media links, author names, geolocations, phone numbers, and usernames, from both hyperlinked and non-hyperlinked sources. Leveraging multithreading and sophisticated anti-webscraping defenses with advanced modules, ensuring you can access the data you require, Vanta supports 'crawl and scrape' within the same domain, gathering information from every relevant corner of a website, Generates comprehensive reports to organize and analyze the extracted data, turning raw information into actionable insights.</p><br><br>
 
-<p align="center"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&amp;logo=linux&amp;logoColor=black" alt="shields"><img src="https://img.shields.io/badge/tmux-1BB91F?style=for-the-badge&amp;logo=tmux&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/windows%20terminal-4D4D4D?style=for-the-badge&amp;logo=windows%20terminal&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/iTerm2-000000?style=for-the-badge&amp;logo=iterm2&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="shields"></p><br><br>
+<p align="center"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&amp;logo=linux&amp;logoColor=black" alt="shields"><img src="https://img.shields.io/badge/tmux-1BB91F?style=for-the-badge&amp;logo=tmux&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/windows%20terminal-4D4D4D?style=for-the-badge&amp;logo=windows%20terminal&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/iTerm2-000000?style=for-the-badge&amp;logo=iterm2&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="shields"><img src="https://img.shields.io/badge/Tor-7D4698?style=for-the-badge&logo=Tor-Browser&logoColor=white&amp;logo=python&amp;logoColor=white" alt="shields"></p><br><br>
 
 <p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AITFw-yL2zYKX1yEZPYLPK5brCOz_jSMLH1ilEPi7jeSAv0XUIbkf4ardW0pflUV7ltxpqppYrmdOt5NWf24PjpgqxkE1zBl=s1600" alt="project-logo"></p><br>
   
@@ -38,10 +38,7 @@ git clone https://github.com/z0m31en7/Uscrapper.git
 ```
 ```
 cd Uscrapper/install/ 
-python -m venv venv
-source venv/bin/activate
 chmod +x ./install.sh && ./install.sh      #For Unix/Linux systems
-cd ..
 ```
 
 <br><h2>🔮 Usage:</h2>
