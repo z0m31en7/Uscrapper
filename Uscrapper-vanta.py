@@ -30,7 +30,7 @@ print(colored("\n     𝘜𝘯𝘭𝘦𝘢𝘴𝘩 𝘵𝘩𝘦 𝘱𝘰𝘸𝘦
 print(colored("           ~𝑩𝒚: 𝑷𝒓𝒂𝒏𝒋𝒂𝒍 𝑮𝒐𝒆𝒍 (𝒛0𝒎31𝒆𝒏7)\n", "red"))
 
 extracted_usernames0 = []
-extracted_phone_numbers0 = []
+extracted_phone_numbers0 = [89884168083]
 extracted_emails0 = []
 geolocations0 = []
 author_names0 = []
