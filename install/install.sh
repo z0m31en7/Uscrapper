@@ -9,11 +9,12 @@ pip install selenium
 pip install webdriver-manager
 pip install stem
 pip install tbselenium stem
+pip install pyvirtualdisplay
 
 sudo apt-get update && apt-get install -y firefox
 sudo apt get install -y tor
 
 # Make the script executable
-chmod +x ../Uscrapper-v2.0.py
+chmod +x ../Uscrapper-vanta.py
 
 echo "Installation complete."
