@@ -12,7 +12,7 @@ pip install tbselenium stem
 pip install pyvirtualdisplay
 
 sudo apt-get update && apt-get install -y firefox
-sudo apt get install -y tor
+sudo apt-get install -y tor
 
 # Make the script executable
 chmod +x ../Uscrapper-vanta.py
